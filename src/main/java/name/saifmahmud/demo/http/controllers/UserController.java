@@ -4,7 +4,6 @@ import name.saifmahmud.demo.entities.Book;
 import name.saifmahmud.demo.entities.User;
 import name.saifmahmud.demo.http.dtos.UserDto;
 import name.saifmahmud.demo.repositories.UserRepository;
-import name.saifmahmud.demo.services.EmailService;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
