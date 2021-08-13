@@ -14,10 +14,10 @@ INSERT INTO `book` (`id`, `title`, `author`, `published_at`) VALUES (11, 'Harry 
 INSERT INTO `book` (`id`, `title`, `author`, `published_at`) VALUES (12, 'The Hunger Games', 'Suzanne Collins', '2008-09-14');
 INSERT INTO `book` (`id`, `title`, `author`, `published_at`) VALUES (13, 'Me Before You', 'Jojo Moyes', '2012-01-05');
 
-INSERT INTO `book_meta` (`id`, `book_id`, `count`) VALUES (14, 7, 4);
-INSERT INTO `book_meta` (`id`, `book_id`, `count`) VALUES (15, 8, 2);
-INSERT INTO `book_meta` (`id`, `book_id`, `count`) VALUES (16, 9, 8);
-INSERT INTO `book_meta` (`id`, `book_id`, `count`) VALUES (17, 10, 6);
-INSERT INTO `book_meta` (`id`, `book_id`, `count`) VALUES (18, 11, 3);
-INSERT INTO `book_meta` (`id`, `book_id`, `count`) VALUES (19, 12, 10);
-INSERT INTO `book_meta` (`id`, `book_id`, `count`) VALUES (10, 13, 5);
+INSERT INTO `book_meta` (`book_id`, `count`) VALUES (7, 4);
+INSERT INTO `book_meta` (`book_id`, `count`) VALUES (8, 2);
+INSERT INTO `book_meta` (`book_id`, `count`) VALUES (9, 8);
+INSERT INTO `book_meta` (`book_id`, `count`) VALUES (10, 6);
+INSERT INTO `book_meta` (`book_id`, `count`) VALUES (11, 3);
+INSERT INTO `book_meta` (`book_id`, `count`) VALUES (12, 10);
+INSERT INTO `book_meta` (`book_id`, `count`) VALUES (13, 5);
