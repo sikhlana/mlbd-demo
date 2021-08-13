@@ -19,7 +19,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
 import java.util.Set;
 
@@ -34,13 +33,13 @@ public class BookController {
 
     private final EmailService email;
 
-    @PersistenceContext
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     @Autowired
-    public BookController(BookRepository repo, EmailService email) {
+    public BookController(BookRepository repo, EmailService email, EntityManager entityManager) {
         this.repo = repo;
         this.email = email;
+        this.entityManager = entityManager;
     }
 
     @GetMapping
