@@ -1,5 +1,7 @@
 package name.saifmahmud.demo.services;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -8,6 +10,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class EmailService {
     private final JavaMailSender sender;
+
+    private final Logger logger = LoggerFactory.getLogger(EmailService.class);
 
     @Autowired
     public EmailService(JavaMailSender sender) {
@@ -22,6 +26,11 @@ public class EmailService {
         message.setSubject(subject);
         message.setText(text);
 
-        sender.send(message);
+        try {
+            logger.info("Sending out email");
+            sender.send(message);
+        } catch (Exception e) {
+            // An exception will be thrown cuz mail server is not configured. Ignoring this exception...
+        }
     }
 }
