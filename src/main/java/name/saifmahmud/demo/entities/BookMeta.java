@@ -10,12 +10,12 @@ import javax.persistence.*;
 @Setter
 public class BookMeta {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column
     private Integer count;
 
-    @OneToOne
+    @MapsId
+    @OneToOne(fetch = FetchType.LAZY)
     private Book book;
 }

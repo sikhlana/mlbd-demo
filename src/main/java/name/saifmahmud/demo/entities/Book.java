@@ -33,7 +33,7 @@ public class Book {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date publishedAt;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "book")
+    @OneToOne(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
     @JsonIgnore
     private BookMeta meta;
 

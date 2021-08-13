@@ -1,6 +1,7 @@
 package name.saifmahmud.demo.http.controllers;
 
 import name.saifmahmud.demo.entities.Book;
+import name.saifmahmud.demo.entities.BookMeta;
 import name.saifmahmud.demo.entities.User;
 import name.saifmahmud.demo.http.dtos.BookDto;
 import name.saifmahmud.demo.http.dtos.UserDto;
@@ -60,6 +61,13 @@ public class BookController {
     public ResponseEntity<Book> create(@Valid @RequestBody BookDto data) {
         logger.info("Creating new book");
         Book book = mapper.map(data, Book.class);
+        BookMeta meta = book.getMeta();
+
+        book.setMeta(null);
+        repo.save(book);
+
+        meta.setBook(book);
+        book.setMeta(meta);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(repo.save(book));
     }
