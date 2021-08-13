@@ -1,11 +1,10 @@
 package name.saifmahmud.demo.exceptions;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.server.ResponseStatusException;
 
-@ResponseStatus(HttpStatus.FORBIDDEN)
-public class ZeroBooksLeftForIssueException extends RuntimeException {
+public class ZeroBooksLeftForIssueException extends ResponseStatusException {
     public ZeroBooksLeftForIssueException() {
-        super("book.all_issued");
+        super(HttpStatus.FORBIDDEN, "book.all_issued");
     }
 }

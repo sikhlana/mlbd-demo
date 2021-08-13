@@ -1,11 +1,10 @@
 package name.saifmahmud.demo.exceptions;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.server.ResponseStatusException;
 
-@ResponseStatus(HttpStatus.CONFLICT)
-public class BookNotIssuedToUserException extends RuntimeException {
+public class BookNotIssuedToUserException extends ResponseStatusException {
     public BookNotIssuedToUserException() {
-        super("book.not_issued");
+        super(HttpStatus.CONFLICT, "book.not_issued");
     }
 }
