@@ -4,13 +4,13 @@ import name.saifmahmud.demo.entities.Book;
 import name.saifmahmud.demo.entities.BookMeta;
 import name.saifmahmud.demo.entities.User;
 import name.saifmahmud.demo.http.dtos.BookDto;
-import name.saifmahmud.demo.http.dtos.UserDto;
 import name.saifmahmud.demo.repositories.BookRepository;
 import name.saifmahmud.demo.services.EmailService;
 import org.hibernate.search.engine.search.query.SearchResult;
 import org.hibernate.search.mapper.orm.Search;
 import org.hibernate.search.mapper.orm.session.SearchSession;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +40,13 @@ public class BookController {
         this.repo = repo;
         this.email = email;
         this.entityManager = entityManager;
+
+        mapper.addMappings(new PropertyMap<BookDto, Book>() {
+            @Override
+            protected void configure() {
+                skip().setMeta(null);
+            }
+        });
     }
 
     @GetMapping
@@ -67,13 +74,9 @@ public class BookController {
     public ResponseEntity<Book> create(@Valid @RequestBody BookDto data) {
         logger.info("Creating new book");
         Book book = mapper.map(data, Book.class);
-        BookMeta meta = book.getMeta();
 
-        book.setMeta(null);
         repo.save(book);
-
-        meta.setBook(book);
-        book.setMeta(meta);
+        book.setMeta(mapper.map(data.getMeta(), BookMeta.class));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(repo.save(book));
     }
@@ -85,9 +88,11 @@ public class BookController {
     }
 
     @PutMapping("{book}")
-    public ResponseEntity<Book> update(@Valid @RequestBody UserDto data, @PathVariable Book book) {
+    public ResponseEntity<Book> update(@Valid @RequestBody BookDto data, @PathVariable Book book) {
         logger.info("Updating book info");
+
         mapper.map(data, book);
+        mapper.map(data.getMeta(), book.getMeta());
 
         return ResponseEntity.ok(repo.save(book));
     }
