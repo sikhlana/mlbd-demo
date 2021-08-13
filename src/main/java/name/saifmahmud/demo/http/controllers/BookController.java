@@ -7,15 +7,19 @@ import name.saifmahmud.demo.http.dtos.BookDto;
 import name.saifmahmud.demo.http.dtos.UserDto;
 import name.saifmahmud.demo.repositories.BookRepository;
 import name.saifmahmud.demo.services.EmailService;
+import org.hibernate.search.engine.search.query.SearchResult;
+import org.hibernate.search.mapper.orm.Search;
+import org.hibernate.search.mapper.orm.session.SearchSession;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
 import java.util.Set;
 
@@ -30,6 +34,9 @@ public class BookController {
 
     private final EmailService email;
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
     @Autowired
     public BookController(BookRepository repo, EmailService email) {
         this.repo = repo;
@@ -43,16 +50,16 @@ public class BookController {
     }
 
     @GetMapping("search")
-    public ResponseEntity<Iterable<Book>> search(@RequestParam @Nullable String title, @RequestParam @Nullable String author) {
-        Iterable<Book> books = null;
+    public ResponseEntity<Iterable<Book>> search(@RequestParam String q) {
+        SearchSession searchSession = Search.session(entityManager);
 
-        if (title != null) {
-            logger.info("Searching books by title");
-            books = repo.findByTitleContainingIgnoreCase(title);
-        } else if (author != null) {
-            logger.info("Searching books by author");
-            books = repo.findByAuthorContainingIgnoreCase(author);
-        }
+        SearchResult<Book> result = searchSession.search(Book.class)
+                .where(f -> f.match()
+                        .fields("title", "author")
+                        .matching(q))
+                .fetchAll();
+
+        Iterable<Book> books = result.hits();
 
         return ResponseEntity.ok(books);
     }

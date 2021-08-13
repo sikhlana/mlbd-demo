@@ -8,12 +8,15 @@ import lombok.Setter;
 import name.saifmahmud.demo.exceptions.BookAlreadyIssuedToUserException;
 import name.saifmahmud.demo.exceptions.MaximumBooksIssuedException;
 import name.saifmahmud.demo.exceptions.ZeroBooksLeftForIssueException;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.Set;
 
 @Entity
+@Indexed
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -24,9 +27,11 @@ public class Book {
     private Long id;
 
     @Column
+    @FullTextField
     private String title;
 
     @Column
+    @FullTextField
     private String author;
 
     @Column
