@@ -13,6 +13,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 @SpringBootApplication
@@ -26,6 +28,12 @@ public class DemoApplication implements WebMvcConfigurer {
     public LocaleResolver localeResolver() {
         AcceptHeaderLocaleResolver resolver = new AcceptHeaderLocaleResolver();
         resolver.setDefaultLocale(Locale.ENGLISH);
+
+        List<Locale> locales = new ArrayList<>();
+        locales.add(Locale.ENGLISH);
+        locales.add(Locale.JAPANESE);
+
+        resolver.setSupportedLocales(locales);
 
         return resolver;
     }
